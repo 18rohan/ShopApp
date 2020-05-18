@@ -1,18 +1,32 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import {createStore, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import userCart from './store/reducers/userCart';
+import productReducers from './store/reducers/productReducers';
+import ShopNavigator from './navigation/ShopNavigator';
 
+const rootReducer = combineReducers({
+  products: productReducers,
+  cart:userCart,
+
+});
+
+const store =createStore(rootReducer);
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
+    
+    <Provider store={store}>   
+    <ShopNavigator />
+    </Provider>
+    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
