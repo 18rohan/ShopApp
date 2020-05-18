@@ -13,6 +13,7 @@ const userCart =  (state = initialState, action) =>{
             const addedProduct = action.product;
             const ProdPrice = addedProduct.price;
             const ProdTitle = addedProduct.name;
+            const image = addedProduct.imageurl;
 
             if (state.items[addedProduct.id]){
                 // product already in Cart 
@@ -20,20 +21,22 @@ const userCart =  (state = initialState, action) =>{
                     state.items[addedProduct.id].quantity + 1,
                     ProdTitle,
                     ProdPrice,
-                    state.items[addedProduct.id].sum + prodPrice
+                    state.items[addedProduct.id].sum + ProdPrice,
+                    image
+
                 );
                 return {
                     ...state,
-                    items:{...state.items, [addedProduct]:updatedItem},
-                    totalAmount: state.totalAmount + prodPrice
+                    items:{...state.items, [addedProduct.id]:updatedItem},
+                    totalAmount: state.totalAmount + ProdPrice
                 };
 
             } else{
                 // Adding product first time in Cart
-                const item = new CartItem(1,ProdTitle, ProdPrice, ProdPrice);
+                const newCartitem = new CartItem(1,ProdTitle, ProdPrice, ProdPrice, image);
                 return {
                     ...state,
-                    items:{...state.items, [addedProduct]:item},
+                    items:{...state.items, [addedProduct.id]:newCartitem},
                     totalAmount: state.totalAmount + ProdPrice
 
                 };

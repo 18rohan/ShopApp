@@ -1,10 +1,11 @@
 class CartItem {
-    constructor(ProductName, ProductPrice, quantity, sum){
-        
-        this.ProductName = ProductName;
-        this.ProductPrice = ProductPrice;
+    constructor(quantity,name, price , sum, image){
+
         this.quantity = quantity;
+        this.name = name;
+        this.price = price;        
         this.sum = sum;
+        this.image = image;
     }
 }
 

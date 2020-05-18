@@ -1,20 +1,24 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
+import CartItem from '../../components/shop/cartItem';
 
 
 
 const UserCart = props =>{
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
+    // const cartItems1 = useSelector(state => state.cart.items);
+    
     const cartItems = useSelector(state => {
         const transformedCartItem = [];
         for (const key in state.cart.items){
             transformedCartItem.push({
                 productId: key,
+                productName:state.cart.items[key].name,
+                productPrice : state.cart.items[key].price,
                 quantity: state.cart.items[key].quantity,
-                productName:state.cart.items[key].ProductName,
-                productPrice : state.cart.items[key].productPrice,
                 sum: state.cart.items[key].sum,
+                imageurl: state.cart.items[key].image
             })
         }
         return transformedCartItem;
@@ -22,8 +26,13 @@ const UserCart = props =>{
     console.log(cartItems);
     const renderCartItem = itemData => {
         return (
-            <View style={{width: 300, height:90}}>
-                <Text>{itemData.item.productName}</Text>
+            <View style={styles.FlatlistItem}>
+                <CartItem   quantity={itemData.item.quantity} 
+                      name={itemData.item.productName} 
+                      price={itemData.item.productPrice}
+                      imageurl={itemData.item.imageurl}
+                      />
+                      
             </View>
         );
     };
@@ -34,13 +43,24 @@ const UserCart = props =>{
                      Total: <Text style= {styles.totalAmountText}>Rs.{cartTotalAmount.toFixed(2)}</Text>
                  </Text>
                  <Button title="ORDER NOW" onPress={()=>{
-                     console.log(cartItems.productName);
+                     console.log(cartItems.quantity);
                  }} 
                  disabled={cartItems.length === 0}/>
              </View>
-             <View style={styles.cartListContainer}>
+             <View style={styles.ListHeaderContainer}>
              <Text style={styles.cartListHeading}>Cart List</Text>
-            <FlatList data={cartItems} renderItem={renderCartItem} keyExtractor={item => item.productId} />
+             </View>
+             
+             <View style={styles.cartListContainer}>
+            <FlatList data={cartItems} 
+                      renderItem={renderCartItem} 
+                      keyExtractor={item => item.productId} 
+                      quantity={cartItems.quantity} 
+                      name={cartItems.productName} 
+                      price={cartItems.productPrice}
+                      imageurl={cartItems.imageurl}
+                        style={styles.list}
+                      />
             </View>
         </View>
     );
@@ -51,14 +71,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent:'center',
         alignItems:'center',
+        backgroundColor:'white',
     },
     summaryText:{
         fontSize: 20,
         fontWeight:'bold',
     },
+    FlatlistItem:{
+        width: '100%',
+        height:140},
     summary:{
         flexDirection: 'row',
-        marginLeft:20,
+        marginLeft:25,
         justifyContent:'space-around',
         alignItems:'center',
         paddingBottom:2,
@@ -77,14 +101,26 @@ const styles = StyleSheet.create({
         color:'#1DB954',
         fontSize:19,
     },
+    list:{
+        height:900,
+    },
     cartListHeading:{
         fontSize:23, 
         fontWeight:'bold',
     },
     cartListContainer:{
+        justifyContent:'space-around',
+        alignItems:'center',
+        marginTop:25,
+        marginRight:50,
+        width: 420,
+
+    },
+    ListHeaderContainer:{
+        marginBottom:6,
+        marginTop:25,
         justifyContent:'center',
         alignItems:'center',
-        marginTop:15,
     },
 });
 

@@ -16,9 +16,9 @@ export const PRODUCT_CATEGORIES = [
 
 export const PRODUCTS = [
     new Product('p7',['c4','c2'],'own7','Macbook Pro 16 inch', 20000, 'Thriller',{uri : 'https://www.bhphotovideo.com/images/images2500x2500/apple_mvvk2ll_a_16_macbook_pro_late_1520435.jpg'}),
-    new Product('p8',['c4','c2'],'own8','Samsung S10+', '£ 3 million', 'Thriller',{uri : 'https://www.samsung.com/global/galaxy/galaxy-s10/connected-plus/images/galaxy-s10_connected-plus_kv_s10_s.png'}),
-    new Product('p3',['c1','c6','c8','c3'],'own3','Coffee', 'Rs.200.00', 'Thriller',{uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMO7vMDdh5p7pppzPj39BKthwFgXTztVibx3fCPBsgTISwqn4V&usqp=CAU'}),
-    new Product('p4',['c1','c6','c8','c3'],'own4','Tea', 'Rs.150.00', 'Thriller',{uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS2pjzhPO3jNLs9SZB5NlRWdAjcc4pJ9SyZtB122nkYb2MAvUKU&usqp=CAU'}),
+    new Product('p8',['c4','c2'],'own8','Samsung S10+', 30000, 'Thriller',{uri : 'https://www.samsung.com/global/galaxy/galaxy-s10/connected-plus/images/galaxy-s10_connected-plus_kv_s10_s.png'}),
+    new Product('p3',['c1','c6','c8','c3'],'own3','Coffee', 40000, 'Thriller',{uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSMO7vMDdh5p7pppzPj39BKthwFgXTztVibx3fCPBsgTISwqn4V&usqp=CAU'}),
+    new Product('p4',['c1','c6','c8','c3'],'own4','Tea', 1500, 'Thriller',{uri : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS2pjzhPO3jNLs9SZB5NlRWdAjcc4pJ9SyZtB122nkYb2MAvUKU&usqp=CAU'}),
     new Product('p2',['c1','c6','c8','c3'],'own2','Ketchup', 'Rs.250.00', 'Thriller',{uri : 'https://www.meijer.com/content/dam/meijer/product/0001/30/0000/11/0001300000115_1200.png'}),
     new Product('p5',['c1','c6','c8','c3'],'own5','Rice', 'Rs.800.00', 'Thriller',{uri : 'https://i.pinimg.com/originals/9d/74/5f/9d745fce45889f18d2ccb6b15e68bd69.jpg'}),
     new Product('p1',['c1','c6','c8','c3'],'own1','Cereals', 'Rs.540.80', 'Thriller',{uri : 'https://previews.123rf.com/images/siraphol/siraphol1606/siraphol160600154/57619256-bangkok-thailand-may-27-2016-nestle-cereal-box-isolated-on-white-background.jpg'}),

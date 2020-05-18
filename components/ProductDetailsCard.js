@@ -17,7 +17,7 @@ const ProductDetailsCard = props => {
             {/* Image View */}
             <Image source={props.imageUrl} style={styles.image} />
             <Text style={{fontSize:25, fontWeight:'300'}}>{props.children}</Text>
-                <Text style={{fontSize:20, fontWeight:'500', color:ThemeColors.SpotifyBlack}}>{props.price}</Text>
+                <Text style={{fontSize:20, fontWeight:'500', color:ThemeColors.SpotifyBlack}}>Rs. {props.price}</Text>
            
             </View>
             <View style={styles.textContainer}>

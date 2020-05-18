@@ -1,15 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 
 const CartItem = props => {
     return (
         <View style={styles.cartItem}>
             <View style={styles.itemData}>
-                <Text style={styles.quantity}>QTY</Text> <Text style={styles.title}>TITLE</Text>
+            <Image source = {props.imageurl} style = {styles.image} />
+                <Text style={styles.quantity}>
+                {props.quantity} 
+                </Text>
+                 <Text style={styles.title}>  {props.name}</Text>
             </View>
             <View style={styles.itemData}>
-            <Text style={styles.amount}>$AMT</Text>
+            <Text style={styles.amount}>{props.amount}</Text>
             <TouchableOpacity onPress= {props.onRemove} style = {styles.deleteButton}>
                 <Ionicons name='ios-trash'
                           size={23}
@@ -28,7 +32,9 @@ const styles = StyleSheet.create({
         backgroundColor:'white',
         flexDirection: 'row',
         justifyContent:'space-between',
-        marginHorizontal:20, 
+        // marginHorizontal:20, 
+        width: 370,
+        height:130,
 
     },
     itemData:{
@@ -39,13 +45,17 @@ const styles = StyleSheet.create({
         fontSize:16,
     },
     title:{
-        fontSize:20, fontWeight:'bold'
+        fontSize:15, fontWeight:'200'
     },
     amount:{
         fontSize:16,
     },
     deleteButton:{
         marginLeft: 30,
+    },
+    image:{
+        height:80,
+        width:80
     },
 });
 
