@@ -31,7 +31,7 @@ const BigCards = props => {
                  <Text style={styles.textCardSeller}> by Apple</Text>
 
                 <View style={styles.PriceContainer}>
-                    <Text style={styles.textCardPrice}> {itemData.item.price}</Text>
+                    <Text style={styles.textCardPrice}> Rs. {itemData.item.price}</Text>
                     <Text style={styles.textCardSeller}> Flat 5% off with AXIS banks credit Card</Text>
                     <Text style={styles.textCardSeller}> No cost EMI available</Text>
                     <Text style={styles.textCardSeller}> </Text>

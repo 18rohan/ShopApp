@@ -2,18 +2,20 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 
+
 const CartItem = props => {
+    
     return (
         <View style={styles.cartItem}>
             <View style={styles.itemData}>
             <Image source = {props.imageurl} style = {styles.image} />
-                <Text style={styles.quantity}>
-                {props.quantity} 
-                </Text>
-                 <Text style={styles.title}>  {props.name}</Text>
+                
+                 <Text style={styles.title}>  {props.name} </Text>
+                
             </View>
             <View style={styles.itemData}>
             <Text style={styles.amount}>{props.amount}</Text>
+            <Text style={styles.quantity}>{props.quantity} </Text>
             <TouchableOpacity onPress= {props.onRemove} style = {styles.deleteButton}>
                 <Ionicons name='ios-trash'
                           size={23}
@@ -43,12 +45,14 @@ const styles = StyleSheet.create({
     },
     quantity:{
         fontSize:16,
+        fontWeight:'300'
     },
     title:{
         fontSize:15, fontWeight:'200'
     },
     amount:{
         fontSize:16,
+        color: 'red'
     },
     deleteButton:{
         marginLeft: 30,

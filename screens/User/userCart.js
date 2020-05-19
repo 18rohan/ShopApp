@@ -1,14 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, FlatList} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import CartItem from '../../components/shop/cartItem';
+import * as CartActions from '../../store/actions/Cart';
 
 
 
 const UserCart = props =>{
     const cartTotalAmount = useSelector(state => state.cart.totalAmount);
     // const cartItems1 = useSelector(state => state.cart.items);
-    
+
     const cartItems = useSelector(state => {
         const transformedCartItem = [];
         for (const key in state.cart.items){
@@ -21,9 +22,10 @@ const UserCart = props =>{
                 imageurl: state.cart.items[key].image
             })
         }
-        return transformedCartItem;
+        return transformedCartItem.sort((a, b) => a.productId > b.productId ? 1 : -1);
     });
     console.log(cartItems);
+    const Dispatch = useDispatch();
     const renderCartItem = itemData => {
         return (
             <View style={styles.FlatlistItem}>
@@ -31,6 +33,10 @@ const UserCart = props =>{
                       name={itemData.item.productName} 
                       price={itemData.item.productPrice}
                       imageurl={itemData.item.imageurl}
+                      amount ={itemData.item.amount}
+                      onRemove = {()=>{
+                         Dispatch(CartActions.removeFromCart(itemData.item.productId));
+                      }}
                       />
                       
             </View>
@@ -43,7 +49,7 @@ const UserCart = props =>{
                      Total: <Text style= {styles.totalAmountText}>Rs.{cartTotalAmount.toFixed(2)}</Text>
                  </Text>
                  <Button title="ORDER NOW" onPress={()=>{
-                     console.log(cartItems.quantity);
+                     console.log();
                  }} 
                  disabled={cartItems.length === 0}/>
              </View>
@@ -57,7 +63,11 @@ const UserCart = props =>{
                       keyExtractor={item => item.productId} 
                       quantity={cartItems.quantity} 
                       name={cartItems.productName} 
-                      price={cartItems.productPrice}
+                      onRemove = {()=>{
+                          console.log("Delete Presssed");
+                        //   Dispatch(CartActions.removeFromCart(cartItems.productId))
+                      }}
+                      amount={cartItems.productPrice}
                       imageurl={cartItems.imageurl}
                         style={styles.list}
                       />

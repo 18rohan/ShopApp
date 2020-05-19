@@ -15,6 +15,17 @@ const ProductList = props => {
     );
 };
 
+ProductList.navigationOptions = navigationData => {
+     const catId = navigationData.navigation.getParam('CategoryId') ;
+    //  const availableProducts = useSelector(state =>state.products.availableProducts);
+     const displayedData = PRODUCTS.find(product => product.categoryId == catId);
+     console.log(displayedData);
+    return {
+        headerTitle:"Product List"
+    };
+}
+
+
 
 
 export default ProductList;

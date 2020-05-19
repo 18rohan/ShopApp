@@ -22,7 +22,10 @@ const ShopNavigator = createStackNavigator({
                 defaultNavigationOptions:{
                     backgroundColor:'black'
                 }},
-    ProductList:ProductList,
+    ProductList:{screen:ProductList,
+                defaultNavigationOptions:{
+                    headerTitle:"Technology"
+                }},
     ProductDetails:ProductDetails,
     
 
