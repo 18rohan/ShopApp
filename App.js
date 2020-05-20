@@ -5,10 +5,12 @@ import {Provider} from 'react-redux';
 import userCart from './store/reducers/userCart';
 import productReducers from './store/reducers/productReducers';
 import ShopNavigator from './navigation/ShopNavigator';
+import ReducerOrder from './store/reducers/ReducerOrders';
 
 const rootReducer = combineReducers({
   products: productReducers,
   cart:userCart,
+  order:ReducerOrder,
 
 });
 

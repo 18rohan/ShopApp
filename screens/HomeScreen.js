@@ -111,12 +111,16 @@ HomeScreen.navigationOptions = (navData) => {
         
          <CustomHeaderButton IconName="ios-cart"  IconSize={28} onTouch={() => {
              navData.navigation.navigate("User")
-         }} />
+         }} />,
+
+        headerLeft: () => 
         
+            <CustomHeaderButton IconName="ios-menu"  IconSize={28} onTouch={() => {
+            navData.navigation.toggleDrawer();
+            }} />,  
          
-        
     };
-}
+};
 
 
 

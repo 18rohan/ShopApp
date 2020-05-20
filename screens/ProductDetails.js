@@ -5,6 +5,7 @@ import ProductDetailsCard from '../components/ProductDetailsCard';
 import {Ionicons, Fontisto} from '@expo/vector-icons';
 import ThemeColors from '../constants/themeColor';
 import * as CartActions from '../store/actions/Cart';
+import CustomHeaderButton  from '../components/HeaderButton';
 
 
 
@@ -35,6 +36,11 @@ const ProductDetails = props => {
 ProductDetails.navigationOptions = navData => {
     return {
         headerTitle: 'ProductDetails',
+        headerRight: () => 
+        <CustomHeaderButton IconName="ios-cart"  IconSize={28} onTouch={() => {
+            navData.navigation.navigate("User");
+            }} />,  
+         
     };
 };
 const styles = StyleSheet.create({
