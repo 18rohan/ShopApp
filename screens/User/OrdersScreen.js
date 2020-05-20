@@ -14,6 +14,7 @@ const OrderScreen = props =>{
     console.log("Order Screen");
     console.log(orders);
     const renderOrderItem = itemData =>{
+        console.log(itemData.item.items)
             return (
                 <View style={styles.list}>
                 <OrderItem 

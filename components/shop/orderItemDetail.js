@@ -20,7 +20,7 @@ const CardDetailItem = props =>{
         </View>
         <TouchableOpacity style={styles.ShowDetailsButton} onPress={() => {
             props.setDetailOrder(prevState => !prevState);
-            console.log(props.items.name);
+            console.log(props.items.productName);
         }}>
                 <View>
                     <Text style={styles.buttonTint}>Show Details</Text>

@@ -4,7 +4,6 @@ import Order  from '../../models/ModelOrder';
 
 
 
-
 const initialState = {
     orders : [],
 };
@@ -15,7 +14,7 @@ const ReducerOrder = (state=initialState, action) =>{
         case ADD_ORDER:
             const newOrder = new Order(new Date().toString(), 
                                     action.orderData.items, 
-                                    action.orderData.price, 
+                                    action.orderData.amount, 
                                     new Date()
                                     );
             return {
