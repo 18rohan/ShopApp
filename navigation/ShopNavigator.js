@@ -7,17 +7,19 @@ import HomeScreen from '../screens/HomeScreen';
 import ProductList from '../screens/ProductList';
 import ProductDetails from '../screens/ProductDetails';
 import OrderScreen from '../screens/User/OrdersScreen'
+import EditUserProduct from '../screens/User/EdituserProduct';
+import UserProducts from '../screens/User/UserProducts';
 //import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserCart from '../screens/User/userCart';
 import ThemeColors from '../constants/themeColor';
-import {Entypo, Ionicons, FontAwesome5} from '@expo/vector-icons';
+import {Entypo, Ionicons, FontAwesome5, Feather} from '@expo/vector-icons';
 
 
 
 
 //.. ShopNavigator Stack with the HomeScreen and ProductDetails Screen
-const DefaultHeaderStyle =  {headerTitle:'Cart',
+const DefaultHeaderStyle =  {
 headerStyle:{
     backgroundColor:ThemeColors.SpotifyGreen,
 },
@@ -63,6 +65,18 @@ const OrderNav = createStackNavigator({
     defaultNavigationOptions: DefaultHeaderStyle,
 })
 // ----------------------------------------------------------------------------------------
+// .. UserProducts Stack Navigation
+const UserSavedProducts = createStackNavigator({
+    UserProducts : UserProducts,
+    EditUserProduct : EditUserProduct,
+}, {navigationOptions:{
+    drawerIcon: drawerConfig => (
+        <Feather name="command" size={24}/>
+    )
+},
+    defaultNavigationOptions:DefaultHeaderStyle,
+    
+});
 
 // Bottom Tab Bar Navigation: with Home Screen Stack(Shop Navigation Stack) and UserCart stack
 const TabNav = createBottomTabNavigator({
@@ -100,7 +114,8 @@ const TabNav = createBottomTabNavigator({
 
 const MainNav = createDrawerNavigator({
     home:TabNav,
-    order: OrderNav
+    order: OrderNav,
+    Admin: UserSavedProducts,
 })
 
 
