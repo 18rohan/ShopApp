@@ -49,6 +49,7 @@ const UserCart = props =>{
     return(
         <View style={styles.screens}>
              <View style={styles.summary}>
+            
                  <Text style={styles.summaryText}>
                      Total: <Text style= {styles.totalAmountText}>Rs.{cartTotalAmount.toFixed(2)}</Text>
                  </Text>
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
+
 });
 
 

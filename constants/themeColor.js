@@ -1,5 +1,6 @@
 export default {
     SpotifyBlack:'#191419',
-    SpotifyGreen:'#1DB954',
-    StarbucksGreen:'#00704a'
+    SpotifyGreen:'#00704a',
+    StarbucksGreen:'#1DB954'
+    
 }

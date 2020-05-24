@@ -22,7 +22,7 @@ const BigCards = props => {
          <View style={styles.Card} >
 
          <View style={styles.imageCardContainer}>
-         <Image source={itemData.item.imageurl} style={styles.image} />
+         <Image source={{uri:itemData.item.imageurl}} style={styles.image} />
          </View>
 
          

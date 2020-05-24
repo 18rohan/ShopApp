@@ -20,6 +20,9 @@ const ProductDetails = (props) => {
     return (
         <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
             <View style={styles.ProducCard}>
+            <View style={styles.ProductTitleContainer}>
+            <Text style={styles.ProductTitleText}>{DisplayedProduct.name}</Text>
+            </View>
                 <ProductDetailsCard
                     product={DisplayedProduct}
                     imageUrl={DisplayedProduct.imageurl}
@@ -36,8 +39,10 @@ const ProductDetails = (props) => {
     );
 };
 ProductDetails.navigationOptions = (navData) => {
+    const prodId = navData.navigation.getParam("ProductId");
+    const currentProduct = PRODUCTS.find(prod => prod.id === prodId);
     return {
-        headerTitle: "ProductDetails",
+        headerTitle: " ",
         headerRight: () => (
             <CustomHeaderButton
                 IconName="ios-cart"
@@ -60,6 +65,15 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 25,
         fontWeight: "300",
+    },
+    ProductTitleText:{
+        fontSize:25,
+        fontWeight: "300",
+        color: ThemeColors.SpotifyGreen,
+    },
+    ProductTitleContainer:{
+        marginTop:7,
+        marginLeft:5,
     },
 });
 export default ProductDetails;

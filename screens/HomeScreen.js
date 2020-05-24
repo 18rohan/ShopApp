@@ -28,7 +28,7 @@ const HomeScreen = props => {
              <View >
              
              <View style={styles.Card} >
-             <ImageBackground source={itemData.item.imageurl} style={styles.image} >
+             <ImageBackground source={{uri:itemData.item.imageurl}} style={styles.image} >
              <View style={styles.textCardContainer}>
                      <Text style={styles.textCard}> {itemData.item.name}</Text>
             </View>
@@ -46,9 +46,9 @@ const HomeScreen = props => {
             <TouchableOpacity style={styles.listSmall} onPress={() =>{
                 return (
                     props.navigation.navigate({
-                        routeName:'ProductList',
+                        routeName:'ProductDetails',
                         params:{
-                            CategoryId: itemData.item.id
+                            ProductId: itemData.item.id
                         },
                     })
                        
@@ -57,7 +57,7 @@ const HomeScreen = props => {
              <View style={styles.cardSmall}>
              
                  <View style={styles.cardPicture}>
-                 <Image source = {itemData.item.imageurl} style = {styles.imageSmallBackground} />
+                 <Image source = {{uri:itemData.item.imageurl}} style = {styles.imageSmallBackground} />
                      
                     
                  </View>
@@ -84,12 +84,14 @@ const HomeScreen = props => {
                       
                     </View>
                     </View>
+        {/* Top Row : BIG CARDS */}        
                    <View style={styles.MidRow}> 
                    <Text style={styles.text}>Your Favourites</Text>
                     <FlatList data={PRODUCT_CATEGORIES} renderItem={renderGridItem} horizontal showsHorizontalScrollIndicator={false} />
                    </View>
-   
-   
+
+        {/* Middle Row : SMALL CARDS */}
+
                    <View style={styles.BottomRow}>
                             <Text style={{fontSize:20, fontWeight:'400'}}>Latest</Text>
                             <FlatList data={PRODUCTS} renderItem={renderSmallCards} horizontal showsHorizontalScrollIndicator={false}/>
@@ -109,7 +111,7 @@ HomeScreen.navigationOptions = (navData) => {
         headerTitle:"Shopper's stop ",
         headerRight: () => 
         
-         <CustomHeaderButton IconName="ios-cart"  IconSize={28} onTouch={() => {
+         <CustomHeaderButton IconName="ios-cart"  IconSize={26} onTouch={() => {
              navData.navigation.navigate("User")
          }} />,
 

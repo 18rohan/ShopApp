@@ -3,29 +3,27 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import ThemeColors from "../../constants/themeColor";
 
 const CardDetailItem = (props) => {
+    
     return (
         <View style={styles.cartItem}>
-            <View style={styles.InfoContainer}>
+            
                 <View style={styles.itemData}>
-                    {/* <Image source = {props.imageurl} style = {styles.image} /> */}
+                    <Image source = {{uri:props.image}} style = {styles.image} /> 
+                    </View>
+                    <View style={styles.InfoData}>
+                    <Text style={styles.title}>{props.name}</Text>
                     <Text style={styles.amount}> Rs. {props.amount} </Text>
-                </View>
-                <View style={styles.itemData}>
                     <Text style={styles.title}>{props.date}</Text>
-                    <Text style={styles.title}>{props.items.name}</Text>
+                    <Text style={styles.title}>Total: {props.sum}</Text>
+                    <Text style={styles.title}>Number: {props.quantity}</Text>
+                    </View>
+                
+                <View style={styles.itemData}>
+                    
+                    
                 </View>
-            </View>
-            <TouchableOpacity
-                style={styles.ShowDetailsButton}
-                onPress={() => {
-                    props.setDetailOrder((prevState) => !prevState);
-                    console.log(props.items.productName);
-                }}
-            >
-                <View>
-                    <Text style={styles.buttonTint}>Show Details</Text>
-                </View>
-            </TouchableOpacity>
+            
+            
         </View>
     );
 };
@@ -34,29 +32,31 @@ const styles = StyleSheet.create({
     cartItem: {
         padding: 10,
         backgroundColor: "white",
-
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
         // marginHorizontal:20,
-        marginTop: 30,
+        marginTop:10,
         width: 350,
-        height: 250,
+        height: 160,
         shadowColor: "black",
-        shadowOffset: { width: 3, height: 4 },
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.6,
         elevation: 5,
         borderRadius: 15,
     },
     itemData: {
         flexDirection: "row",
+        
         alignItems: "center",
         marginRight: 10,
+        marginLeft:25,
     },
     InfoContainer: {
-        flex: 1,
+        
         flexDirection: "row",
         justifyContent: "space-around",
-        width: 390,
+        width: '100%',
     },
     quantity: {
         fontSize: 16,
@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
     },
     amount: {
         fontSize: 16,
-        color: "red",
+        color: ThemeColors.SpotifyGreen,
     },
     deleteButton: {
         marginLeft: 30,
     },
     image: {
-        height: 80,
-        width: 80,
+        height: 120,
+        width: 120,
     },
     ShowDetailsButton: {
         backgroundColor: ThemeColors.SpotifyGreen,
@@ -87,6 +87,14 @@ const styles = StyleSheet.create({
     buttonTint: {
         color: "white",
         fontWeight: "bold",
+    },
+    InfoData:{
+        
+        margin:7,
+        height:600,
+        width:300,
+        justifyContent: "center",
+        alignItems: "flex-start",
     },
 });
 

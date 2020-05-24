@@ -19,6 +19,7 @@ const UserProducts = (props) => {
 					name={itemData.item.name}
 					image={itemData.item.imageurl}
 					navigation={props.navigation}
+					productId = {itemData.item.id}
 					onTouch={() => {
 						console.log("Hello Rohan");
 						Dispatch(ProductActions.deleteProduct(itemData.item.id));
@@ -29,7 +30,7 @@ const UserProducts = (props) => {
 	};
 	return (
 		<View style={styles.screen}>
-			<Text style={styles.text}> Products Screen </Text>
+			
 			<FlatList
 				data={userProducts}
 				renderItem={renderSingleProduct}
@@ -40,6 +41,7 @@ const UserProducts = (props) => {
 };
 UserProducts.navigationOptions = (navData) => {
 	return {
+		headerTitle:"User Products",
 		headerLeft: () => (
 			<CustomHeaderButton
 				IconName="ios-menu"
@@ -49,6 +51,15 @@ UserProducts.navigationOptions = (navData) => {
 				}}
 			/>
 		),
+		headerRight: () => (
+				<CustomHeaderButton
+					IconName="ios-add"
+					IconSize={28}
+					onTouch={() =>{
+					navData.navigation.navigate("EditUserProduct");
+					}}
+					/>
+			),
 	};
 };
 

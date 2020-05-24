@@ -6,7 +6,7 @@ const CartItem = (props) => {
     return (
         <View style={styles.cartItem}>
             <View style={styles.itemData}>
-                <Image source={props.imageurl} style={styles.image} />
+                <Image source={{uri:props.imageurl}} style={styles.image} />
 
                 <Text style={styles.title}> {props.name} </Text>
             </View>

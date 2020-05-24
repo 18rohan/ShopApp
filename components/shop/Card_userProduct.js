@@ -3,21 +3,29 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import ThemeColors from "../../constants/themeColor";
 
 const UserProductCard = (props) => {
-
 	return (
 		<View style={[styles.card, props.style]}>
-			<Image style={[styles.image, props.style]} source={props.image} />
+			<Image style={[styles.image, props.style]} source={{uri:props.image}} />
 			<Text style={[styles.text, props.style]}>{props.name}</Text>
 			<View style={styles.CardButtonsContainer}>
 				<TouchableOpacity
 					style={styles.CardButtons}
 					onPress={() => {
-						props.navigation.navigate("EditUserProduct");
+						props.navigation.navigate({
+							routeName:"EditUserProduct",
+							params:{
+								productId:props.productId
+							},
+						});
 					}}
 				>
 					<Text style={styles.ButtonText}>Edit Product</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.CardButtons} onPress={props.onTouch}>
+
+				<TouchableOpacity
+					style={styles.CardButtons}
+					onPress={props.onTouch}
+				>
 					<Text style={styles.ButtonText}>Delete Product</Text>
 				</TouchableOpacity>
 			</View>
