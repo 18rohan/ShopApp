@@ -38,16 +38,18 @@ const productReducers = (state = initialState, action) => {
 			const productIndex = state.userProducts.findIndex(product => product.id === action.pid);
 			const updatedProduct = new Product(
 								action.pid, 
+								'c4',
 								state.userProducts[productIndex].ownerId, 
 								
-								
-								state.userProducts[productIndex].imageurl,
 								action.productData.name,
-								
-								
+								state.userProducts[productIndex].price,
 								action.productData.description,
+								action.productData.imageurl,
 								
-								state.userProducts[productIndex].price);
+								
+								
+								
+								);
 			const updatedUserProducts =[...state.userProducts]; 
 			updatedUserProducts[productIndex] = updatedProduct;
 			const availableProductIndex = state.availableProducts.findIndex(prod =>prod.id === action.pid);
