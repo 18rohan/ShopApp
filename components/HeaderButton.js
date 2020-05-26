@@ -8,6 +8,7 @@ const CustomHeaderButton = props => {
     return (
         <TouchableOpacity onPress={props.onTouch}>
         <View style={styles.button}>
+        
              <Ionicons name={props.IconName} size ={props.IconSize} color = "white" /> 
         </View>
         </TouchableOpacity>

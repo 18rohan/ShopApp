@@ -12,10 +12,13 @@ import { Ionicons, Fontisto } from "@expo/vector-icons";
 import ThemeColors from "../constants/themeColor";
 import * as CartActions from "../store/actions/Cart";
 import CustomHeaderButton from "../components/HeaderButton";
+import {useSelector} from "react-redux";
 
 const ProductDetails = (props) => {
     const prodId = props.navigation.getParam("ProductId");
-    const DisplayedProduct = PRODUCTS.find((prod) => prod.id === prodId);
+    const DisplayedProduct = useSelector(state => state.products.availableProducts.find(prod => prod.id === prodId));
+    console.log("GET NAME");
+    console.log(DisplayedProduct.name);
 
     return (
         <ScrollView style={{ backgroundColor: "white", flex: 1 }}>
@@ -60,7 +63,7 @@ const styles = StyleSheet.create({
     },
     ProducCard: {
         height: 600,
-        marginBottom: 20,
+        marginBottom: 50,
     },
     text: {
         fontSize: 25,

@@ -17,7 +17,7 @@ const ProductDetailsCard = (props) => {
     const Product = props.product;
     console.log(Product);
     return (
-        <ScrollView >
+        
             <View style={styles.Detailscard}>
                 <View style={styles.imageContainer}>
                     {/* Image View */}
@@ -63,7 +63,7 @@ const ProductDetailsCard = (props) => {
                     >
                         <View>
                             {/* Product : PUT IN CART */}
-                            <Fontisto name="shopping-bag" size={30} color="white" />
+                            <Fontisto name="shopping-bag" size={28} color="white" />
                             <View style={styles.buttonTextContainer}>
                             <Text style={styles.buttonText}>Checkout</Text>
                             </View>
@@ -75,31 +75,8 @@ const ProductDetailsCard = (props) => {
                 </View>
             </View>
           
-            <View style={styles.InfoContainer}>
-                <View style={styles.inStockContainer}>
-                    <Text
-                        style={{
-                            fontSize: 25,
-                            fontWeight: "400",
-                            color: ThemeColors.SpotifyGreen,
-                        }}
-                    >
-                        In Stock
-                    </Text>
-                </View>
-                <View style={styles.SellerContainer}>
-                    <Text
-                        style={{
-                            fontSize: 25,
-                            fontWeight: "400",
-                            color: ThemeColors.SpotifyGreen,
-                        }}
-                    >
-                        In Stock
-                    </Text>
-                </View>
-            </View>
-        </ScrollView>
+         
+        
     );
 };
 
@@ -110,6 +87,8 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         borderBottomColor: "lightgrey",
         borderBottomWidth: 0.5,
+        marginBottom:15,
+        paddingBottom:25,
     },
     InfoContainer: {
         height: 100,
@@ -171,10 +150,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flex: 1,
+        paddingTop:150,
     },
     image: {
         width: "90%",
         height: 350,
+        resizeMode: "cover",
     },
     textContainer: {
         marginLeft: 50,

@@ -68,13 +68,13 @@ const EditUserProduct = (props) => {
                             }
                 </View>
 
-                <View style={styles.InputContainer}>
+                {!editedProduct ? null :(<View style={styles.InputContainer}>
                     <View style={styles.labelTextContainer}>
                         <Text style={styles.labelText}>Product ID</Text>
                     </View>
 
-                    <TextInput placeholder="Enter Text" value={productId} onChangeText={text =>setProductId(text)} />
-                </View>
+                     <TextInput placeholder="Enter Text" value={productId} onChangeText={text =>setProductId(text)} />
+                </View>)}
                 <View style={styles.InputContainer}>
                     <View style={styles.labelTextContainer}>
                         <Text style={styles.labelText}>Image URL</Text>

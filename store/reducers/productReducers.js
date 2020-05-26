@@ -3,6 +3,7 @@ import {
 	DELETE_PRODUCT,
 	CREATE_PRODUCT,
 	UPDATE_PRODUCT,
+	SET_PRODUCT,
 } from "../actions/products";
 
 import Product from '../../models/products';
@@ -14,9 +15,14 @@ const initialState = {
 
 const productReducers = (state = initialState, action) => {
 	switch (action.type) {
+		case SET_PRODUCT:
+			return {
+				availableProducts:action.products,
+				userProducts:action.products.filter((product) => product.ownerId === "own7")
+			};
 		case CREATE_PRODUCT:
 			const newProduct = new Product(
-				new Date().toString(),
+				action.productData.id,
 				'c4',
 				"u1",
 				

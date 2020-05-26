@@ -1,16 +1,92 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button, FlatList, TouchableOpacity,ImageBackground,Image, TextInput, Platform, ScrollView } from 'react-native';
+import React, {useState, useEffect, useCallback} from 'react';
+import { StyleSheet, 
+         Text, 
+         View, 
+         Button, 
+         FlatList, 
+         TouchableOpacity,
+         ImageBackground,Image, 
+         TextInput, 
+         Platform, 
+         ScrollView ,
+         ActivityIndicator,
+     } 
+    from 'react-native';
 import BigCards from '../components/BigCards';
 import {Ionicons} from '@expo/vector-icons'
 import {PRODUCT_CATEGORIES, PRODUCTS} from '../data/dummy_data';
 import ThemeColors from '../constants/themeColor';
 import CustomHeaderButton from '../components/HeaderButton';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
-
+import * as ProductActions from '../store/actions/products';
+import {useDispatch} from 'react-redux';
 
 
 
 const HomeScreen = props => {
+
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+    const Dispatch = useDispatch(false);
+
+    const getData = useCallback(async () =>{
+        setError(null);
+        setIsLoading(true);
+            setIsLoading(true);
+            try{
+                await Dispatch(ProductActions.fetchProduct());    
+            } catch (err) {
+                setError(err.message);
+            }   
+            
+            setIsLoading(false);
+        },[setIsLoading, setError, Dispatch]);
+
+// Re-rendering the page, while navigating between Drawer and HomeScreen: RE-FETCHING THE DATA, WHILE NAVIGATING 
+    useEffect(() => {
+        props.navigation.addListener('willFocus',getData);
+    },[getData])
+
+
+// Getting the data and displaying it on the homescreee: INITIAL FETCH OF THE DATA
+    useEffect(() => {
+        getData();
+        
+    },[Dispatch,getData]);
+
+
+
+// Handling the Connection error of the range 400, 500
+    if(error){
+         return (
+            <View style={styles.AppLoadingIndicator}>
+            <Text style={{fontSize:25, fontWeight:'bold',color:ThemeColors.SpotifyGreen}}>Something went wrong!!</Text>
+            <Button title="Try Again" onPress={getData} color={ThemeColors.SpotifyGreen} />
+            </View>
+            );
+    }
+
+
+// Displaying the loading Indicator
+    if(isLoading){
+        return (
+            <View style={styles.AppLoadingIndicator}>
+            <ActivityIndicator size="large" color={ThemeColors.SpotifyGreen} />
+            </View>
+            );
+    }
+
+
+// HANDLING THE CONDITION, IF THERE IS NO DATA
+
+    // if (!isLoading){
+    //     return (
+    //         <View style={styles.AppLoadingIndicator}> 
+    //         <Text style={{fontSize:25, fontWeight:'bold', color:ThemeColors.SpotifyGreen}}>Connection Error</Text>
+    //         </View>
+    //         );
+    // }
+
      const renderGridItem = (itemData)=> {
          
          return (
@@ -116,10 +192,12 @@ HomeScreen.navigationOptions = (navData) => {
          }} />,
 
         headerLeft: () => 
-        
+            
+
             <CustomHeaderButton IconName="ios-menu"  IconSize={28} onTouch={() => {
             navData.navigation.toggleDrawer();
-            }} />,  
+            }} />,
+            
          
     };
 };
@@ -260,6 +338,11 @@ const styles = StyleSheet.create({
         fontSize: Platform.OS == 'ios' ? 29 : 14,
         fontWeight:'200',
         color:'black',
+    },
+    AppLoadingIndicator:{
+        flex:1, 
+        justifyContent:'center',
+        alignItems:'center'
     },
 
 });

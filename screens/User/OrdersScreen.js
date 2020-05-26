@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
@@ -9,16 +9,19 @@ import {
     ScrollView
 } from "react-native";
 import CustomHeaderButton from "../../components/HeaderButton";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import CartItem from "../../components/shop/cartItem";
 import OrderItem from "../../components/shop/orderItem";
 import ThemeColors from "../../constants/themeColor";
+import * as OrderActions from '../../store/actions/ActionOrder';
 import CardDetailItem from "../../components/shop/orderItemDetail";
 
 const OrderScreen = (props) => {
     const orders = useSelector((state) => state.order.orders);
-    
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(OrderActions.fetchOrder());
+    },[dispatch]);
    
    
     const renderOrderItem = (itemData) => {
