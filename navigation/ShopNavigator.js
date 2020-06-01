@@ -1,14 +1,17 @@
 import React from 'react';
+import {View, Text, StyleSheet, Platform} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import {createAppContainer} from 'react-navigation';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ProductList from '../screens/ProductList';
 import ProductDetails from '../screens/ProductDetails';
 import OrderScreen from '../screens/User/OrdersScreen'
 import EditUserProduct from '../screens/User/EdituserProduct';
 import UserProducts from '../screens/User/UserProducts';
+import AuthScreen from '../screens/User/AuthScreen';
+import TestEditProduct from '../screens/User/Test_editUserProduct';
 //import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserCart from '../screens/User/userCart';
@@ -21,9 +24,9 @@ import {Entypo, Ionicons, FontAwesome5, Feather} from '@expo/vector-icons';
 //.. ShopNavigator Stack with the HomeScreen and ProductDetails Screen
 const DefaultHeaderStyle =  {
 headerStyle:{
-    backgroundColor:ThemeColors.SpotifyGreen,
+    backgroundColor:Platform.OS == 'android' ? ThemeColors.SpotifyGreen : 'white',
 },
-headerTintColor:'white',
+headerTintColor:Platform.OS =='android' ?'white' : ThemeColors.SpotifyGreen,
 activeTintColor: ThemeColors.SpotifyGreen
 };
 const ShopNavigator = createStackNavigator({
@@ -69,6 +72,8 @@ const OrderNav = createStackNavigator({
 const UserSavedProducts = createStackNavigator({
     UserProducts : UserProducts,
     EditUserProduct : EditUserProduct,
+
+
 }, {navigationOptions:{
     drawerIcon: drawerConfig => (
         <Feather name="command" size={24}/>
@@ -77,6 +82,16 @@ const UserSavedProducts = createStackNavigator({
     defaultNavigationOptions:DefaultHeaderStyle,
     
 });
+
+// Test Stack Navigator ************************************************
+
+const TestNav = createStackNavigator({
+  Test:TestEditProduct,
+},{
+  defaultNavigationOptions:DefaultHeaderStyle,
+})
+
+
 
 // Bottom Tab Bar Navigation: with Home Screen Stack(Shop Navigation Stack) and UserCart stack
 const TabNav = createBottomTabNavigator({
@@ -105,18 +120,26 @@ const TabNav = createBottomTabNavigator({
     },
     tabBarOptions:{
         inactiveBackgroundColor:'white',
-        activeBackgroundColor:ThemeColors.SpotifyGreen,
-        inactiveTintColor:ThemeColors.SpotifyGreen,
+        activeBackgroundColor:Platform.OS == 'android' ? ThemeColors.SpotifyGreen : 'white',
+        inactiveTintColor:Platform.OS == 'android' ? ThemeColors.SpotifyGreen: 'black',
         activeTintColor:ThemeColors.SpotifyGreen,
         inactiveTintColor: 'white'
     }
 });
 
+
 const MainNav = createDrawerNavigator({
     home:TabNav,
     order: OrderNav,
     Admin: UserSavedProducts,
+    
+})
+
+const AuthNav = createSwitchNavigator({
+  Auth:AuthScreen,
+  shop:MainNav,
 })
 
 
-export default createAppContainer(MainNav);
+
+export default createAppContainer(AuthNav);

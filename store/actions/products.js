@@ -90,7 +90,7 @@ export const createProduct = (name, imageurl, description, price) => {
 
 export const updateProduct = (id, name, imageurl, description) => {
 	return async (dispatch) => {
-		await fetch(
+		const response = await fetch(
 			`https://shopapp-fb9ab.firebaseio.com/products/${id}.json`,
 			{
 				method: "PATCH",
@@ -103,6 +103,9 @@ export const updateProduct = (id, name, imageurl, description) => {
 				}),
 			}
 		);
+		if(!response.ok){
+			throw new Error('Something went wrong');
+		}
 
 		dispatch({
 			type: UPDATE_PRODUCT,

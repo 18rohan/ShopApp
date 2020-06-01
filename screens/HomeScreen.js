@@ -147,7 +147,9 @@ const HomeScreen = props => {
      };
 
     return (
-        <ScrollView>
+        <ScrollView 
+        showsVerticalScrollIndicator={false}
+        >
         <View style={styles.screen}>
                 <View style={styles.TopRow}>
                     <View style={styles.TextInputContainer}>

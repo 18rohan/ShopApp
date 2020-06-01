@@ -8,7 +8,7 @@ const OrderItem = (props) => {
     const [DetailOrder, setDetailOrder] = useState(false);
 
     return (
-        <View style={styles.cartItem}>
+       <View style={styles.cartItem}>
             <View style={styles.InfoContainer}>
                 <View style={styles.itemData}>
                     {/* <Image source = {props.imageurl} style = {styles.image} /> */}
@@ -31,6 +31,7 @@ const OrderItem = (props) => {
                                 </Text>
                             </View>
                         </TouchableOpacity>
+                        
             
         {DetailOrder && <View style={styles.detailContainer}>
                        {props.items.map(item => <CardDetailItem name={item.productName} image={item.imageurl} amount={item.productPrice} sum={item.sum} quantity={item.quantity}/>)}

@@ -1,4 +1,4 @@
-import React , {useState, useEffect, useCallback} from "react";
+import React , {useState, useEffect, useCallback, useReducer} from "react";
 import {
     View,
     Text,
@@ -7,45 +7,139 @@ import {
     TextInput,
     ScrollView,
     TouchableOpacity,
+    Alert
 } from "react-native";
 import CustomHeaderButton from "../../components/HeaderButton";
 import ThemeColors from "../../constants/themeColor";
 import {useSelector, useDispatch} from 'react-redux';
 import * as ProductActions from '../../store/actions/products';
 
+// ------------------------------------------------------------------------------------
+// Action Creator
+const FORM_INPUT_UPDATE = 'FORM_INPUT_UPDATE';
+
+
+// ------------------------------------------------------------------------------------
+// Creating the Reducer Function
+const FormReducer = (state, action) => {
+    if(action.type === FORM_INPUT_UPDATE ){
+        const updatedValues =  {
+            ...state.inputValues,
+            [action.input] : action.value
+        };
+        const updatedValidities = {
+            ...state.inputValidities,
+            [action.input] : action.isValid,
+        };
+
+        let UpdatedformisValid = true;
+        for (const key in updatedValidities) {
+            UpdatedformisValid = UpdatedformisValid && updatedValidities[key];
+        }
+        return {
+            formisValid:UpdatedformisValid,
+            inputValidities:updatedValidities,
+            inputValues:updatedValues,
+        };
+    }
+    return state;
+};
+
+
+// ------------------------------------------------------------------------------------
+// EditProduct Screen Component
 const EditUserProduct = (props) => {
     const prodId = props.navigation.getParam("productId");
     const editedProduct = useSelector(state => state.products.userProducts.find(prod => prod.id  === prodId));
-
-    const [name, setName] = useState(editedProduct ? editedProduct.name : '');
-    const [productId, setProductId] = useState(editedProduct ? editedProduct.id : '');
-    const [imageurl, setImageurl] = useState(editedProduct ? editedProduct.imageurl : '');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState(editedProduct ? editedProduct.description : '');
-    const [titleIsValid, setTitleIsValid] = useState(false);
-
+    
+    const [error, setError] = useState(false);
     const Dispatch = useDispatch();
+
+
+
+
+// ------------------------------------------------------------------------------------
+// Using userReducer to validate the Form input
+  const [formState, dispatchFormState ] = useReducer(FormReducer, {
+        inputValues:{
+            name:editedProduct ? editedProduct.name : '',
+            imageurl:editedProduct ? editedProduct.imageurl : '',
+            description:editedProduct ? editedProduct.description : '',
+            price:'',
+        },
+        inputValidities:{
+            name:editedProduct ? true : false,
+            imageurl:editedProduct ? true : false,
+            description:editedProduct ? true : false,
+            price:editedProduct ? true : false,
+        }, 
+
+        formisValid: editedProduct ? true : false
+         });
+
+ 
+
     console.log("Edit Screen");
     console.log(editedProduct);
-    const submitHandler = useCallback(()=>{
+
+    useEffect(() => {
+        if(error){
+            Alert.alert('Wrong input!',error,[{text:'Okay'}]);
+        }
+    });
+
+// ------------------------------------------------------------------------------------
+// Submit Handler to handle the Submission of the form
+    const submitHandler = useCallback(async()=>{
+            if(!formState.formisValid){
+                Alert.alert('Wrong input!','Please check the form',[{text:'Okay'}]);
+                return;
+
+            }   
+            setError(null);
+            try{
                 if(editedProduct){
-                    Dispatch(ProductActions.updateProduct(prodId, name, imageurl, description));
+                   await Dispatch(ProductActions.updateProduct(
+                                    prodId, 
+                                    formState.inputValues.name, 
+                                    formState.inputValues.imageurl, 
+                                    formState.inputValues.description
+                                    ));
                 }else{
-                    Dispatch(ProductActions.createProduct(name, imageurl, description, +price));
+                  await  Dispatch(ProductActions.createProduct(
+                            formState.inputValues.name, 
+                            formState.inputValues.imageurl, 
+                            formState.inputValues.description, 
+                            +formState.inputValues.price
+                            ));
                 }
-    },[Dispatch, prodId, name, imageurl, description, price]);
+                props.navigation.goBack();
+            }catch (err) {
+                setError(err.message);
+            }
+                
+                
+    },[Dispatch, prodId, formState]);
 
     useEffect(() =>{
-        props.navigation.setParams({'submit': submitHandler});
+        props.navigation.setParams({submit: submitHandler});
     }, [submitHandler]);
 
-    const titleChangeHandler = (text) =>{
-        if(text.trim().length === 0){
-            setTitleIsValid(false);
-        }else{
-            setTitleIsValid(true);
+// -----------------------------------------------------------------------------
+// Text Change Handler : Handles the Validity of each Input Field
+    const textChangeHandler = (InputIdentifier, text) =>{
+        
+        let isValid = false;
+        if(text.trim().length > 0){
+          isValid = true;
         }
-        setName(text);
+
+        dispatchFormState({
+            type:FORM_INPUT_UPDATE, 
+            value:text, 
+            isValid:isValid, 
+            input:InputIdentifier, 
+                       });
     };
 
     return (
@@ -57,46 +151,55 @@ const EditUserProduct = (props) => {
                     </View>
 
                     <TextInput placeholder="Enter Text" 
-                               value={name} 
-                               onChangeText={text => setName(text)}
+                               value={formState.inputValues.name} 
+                               onChangeText={ textChangeHandler.bind(this,'name')}
                                autoCapitalize = "words"
 
                                />
-                               {!titleIsValid && <View style={styles.warningText}>
-                                <Text>Please enter a valid name.</Text>
-                                </View>
-                            }
+                    {!formState.inputValues.name && 
+                        <View style={{marginTop:15}}>
+                        <Text style={{color:'red'}}> Enter a valid product name </Text>
+                        </View>}
+
+                             
                 </View>
 
-                {!editedProduct ? null :(<View style={styles.InputContainer}>
-                    <View style={styles.labelTextContainer}>
-                        <Text style={styles.labelText}>Product ID</Text>
-                    </View>
-
-                     <TextInput placeholder="Enter Text" value={productId} onChangeText={text =>setProductId(text)} />
-                </View>)}
+               
                 <View style={styles.InputContainer}>
                     <View style={styles.labelTextContainer}>
                         <Text style={styles.labelText}>Image URL</Text>
                     </View>
-                    <TextInput placeholder="Enter Text" value={imageurl} onChangeText={text => setImageurl(text)}/>
+                    <TextInput 
+                            placeholder="Enter Text" 
+                            value={formState.inputValues.imageurl} 
+                            onChangeText={textChangeHandler.bind(this,'imageurl')}/>
                 </View>
                 {editedProduct ? null : (<View style={styles.InputContainer}>
                     <View style={styles.labelTextContainer}>
                         <Text style={styles.labelText}>Price</Text>
                     </View>
-                    <Text > {price}</Text>
-                    <TextInput placeholder="Enter Text" value={price} onChangeText={text=>setPrice(text)} />
+                    
+                    <TextInput 
+                            placeholder="Enter Text" 
+                            value={formState.inputValues.price} 
+                            onChangeText={textChangeHandler.bind(this,'price')}
+                            keyboardType="decimal-pad"
+                             />
                 </View>
                 )}
+
                 <View style={styles.InputContainer}>
                     <View style={styles.labelTextContainer}>
                         <Text style={styles.labelText}>description</Text>
                     </View>
-                    <TextInput placeholder="Enter Text" value={description} onChangeText={text => setDescription(text)}/>
+                    <TextInput 
+                        placeholder="Enter Text" 
+                        value={formState.inputValues.description} 
+                        onChangeText={textChangeHandler.bind(this,'description')}
+                        />
                 </View>
                 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={submitHandler} >
                     <Text style={styles.buttonText}>{editedProduct ? "edit Product" : "Create Product"}</Text>
                 </TouchableOpacity>
             </View>
@@ -108,10 +211,7 @@ EditUserProduct.navigationOptions = (navData) => {
     const submitFn = navData.navigation.getParam("submit");
     return {
         headerTitle: "Bookmarks",
-        // headerLeft: (tabInfo) =>
-        // <CustomHeaderButton IconName="ios-menu"  IconSize={28} onTouch={() => {
-        //     navData.navigation.toggleDrawer();
-        //     }} />,
+      
         headerRight: () => (
             <CustomHeaderButton
                 IconName="md-checkmark-circle-outline"

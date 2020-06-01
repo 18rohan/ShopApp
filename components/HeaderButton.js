@@ -1,15 +1,16 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View,Platform, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {HeaderButton} from 'react-navigation-header-buttons';
 import {Ionicons, Fontisto} from '@expo/vector-icons';
-
+import ThemeColors from '../constants/themeColor';
 
 const CustomHeaderButton = props => {
+
     return (
         <TouchableOpacity onPress={props.onTouch}>
         <View style={styles.button}>
         
-             <Ionicons name={props.IconName} size ={props.IconSize} color = "white" /> 
+             <Ionicons name={props.IconName} size ={props.IconSize} color = {ThemeColors.SpotifyGreen} /> 
         </View>
         </TouchableOpacity>
     );

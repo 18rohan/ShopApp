@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
     View,
     Text,
@@ -6,61 +6,83 @@ import {
     TouchableOpacity,
     FlatList,
     Button,
-    ScrollView
+    ScrollView,
+    ActivityIndicator,
 } from "react-native";
 import CustomHeaderButton from "../../components/HeaderButton";
-import { useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CartItem from "../../components/shop/cartItem";
 import OrderItem from "../../components/shop/orderItem";
 import ThemeColors from "../../constants/themeColor";
-import * as OrderActions from '../../store/actions/ActionOrder';
+import * as OrderActions from "../../store/actions/ActionOrder";
 import CardDetailItem from "../../components/shop/orderItemDetail";
 
 const OrderScreen = (props) => {
     const orders = useSelector((state) => state.order.orders);
+    const [isLoading, setIsLoading] = useState();
     const dispatch = useDispatch();
+    console.log("Order Screen");
+    
     useEffect(() => {
-        dispatch(OrderActions.fetchOrder());
-    },[dispatch]);
-   
-   
+        props.navigation.addListener("willFocus", getData);
+    });
+
+    const getData = useCallback(async () => {
+        setIsLoading(true);
+        await dispatch(OrderActions.fetchOrder());
+        setIsLoading(false);
+    }, [dispatch]);
+
+    useEffect(() => {
+        getData();
+    }, [dispatch]);
+
+    if (isLoading) {
+        return (
+            <View style={styles.AppLoadingIndicator}>
+                <ActivityIndicator
+                    size="large"
+                    color={ThemeColors.SpotifyGreen}
+                />
+            </View>
+        );
+    }
+
     const renderOrderItem = (itemData) => {
-            return (
-              <ScrollView >
-                <View style={styles.list} >
+        return (
+            <ScrollView>
+                <View style={styles.list}>
                     <OrderItem
                         date={itemData.item.readableDate}
                         amount={itemData.item.totalAmount}
                         items={itemData.item.items}
-                        
                     >
-                    <Button title="Show Details" onPress={()=>{
-                        
-                            setOrderDetails(prevState => !prevState);  
-                    }}
-                    />
-
+                        <Button
+                            title="Show Details"
+                            onPress={() => {
+                                setOrderDetails((prevState) => !prevState);
+                            }}
+                        />
                     </OrderItem>
-                  
                 </View>
-                </ScrollView>
-                
-            );
-        
+            </ScrollView>
+        );
     };
     return (
-        
         <View style={styles.screen}>
-        <View style={styles.HeaderContainer}>
-            <Text style={styles.text}>Orders Screen</Text>
-            </View>
-            
-            <View style={styles.ListContainer}>
-                <FlatList data={orders} renderItem={renderOrderItem} horizontal showsHorizontalScrollIndicator={false}/>
+            <View style={styles.HeaderContainer}>
+                <Text style={styles.text}>Orders Screen</Text>
             </View>
 
+            <View style={styles.ListContainer}>
+                <FlatList
+                    data={orders}
+                    renderItem={renderOrderItem}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
         </View>
-        
     );
 };
 
@@ -86,6 +108,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 15,
+        marginLeft:40
     },
     text: {
         fontSize: 24,
@@ -94,26 +117,24 @@ const styles = StyleSheet.create({
     list: {
         flex: 1,
         width: 450,
-        height:500,
+        height: 500,
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        paddingLeft:30,
-
-
+        paddingLeft: 30,
     },
     ListContainer: {
         flex: 1,
         width: 500,
         justifyContent: "center",
         alignItems: "center",
-        marginLeft:10,
+        marginLeft: 10,
     },
-     ShowDetailsButton: {
+    ShowDetailsButton: {
         backgroundColor: ThemeColors.SpotifyGreen,
         width: 300,
         height: 30,
-        borderRadius:15,
-        marginTop:15,
+        borderRadius: 15,
+        marginTop: 15,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -121,11 +142,14 @@ const styles = StyleSheet.create({
         color: "white",
         fontWeight: "bold",
     },
-    HeaderContainer:{
-        width:'100%',
-        marginLeft:25,
-        
-        
+    HeaderContainer: {
+        width: "100%",
+        marginLeft: 25,
+    },
+    AppLoadingIndicator: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
     },
 });
 

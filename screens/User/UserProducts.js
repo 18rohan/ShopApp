@@ -55,7 +55,7 @@ const UserProducts = (props) => {
 	if (isLoading){
 		return (
 			<View style={styles.AppLoadingIndicator}>
-			<ActivityIndicator size= "large" />
+			<ActivityIndicator size= "large" /> 
 			</View>
 
 			);
@@ -93,6 +93,8 @@ const UserProducts = (props) => {
 		<View style={styles.screen}>
 			
 			<FlatList
+				onRefresh= {getData}
+				refreshing={isLoading}
 				data={userProducts}
 				renderItem={renderSingleProduct}
 				showsVerticalScrollIndicator={false}

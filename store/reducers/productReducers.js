@@ -18,7 +18,7 @@ const productReducers = (state = initialState, action) => {
 		case SET_PRODUCT:
 			return {
 				availableProducts:action.products,
-				userProducts:action.products.filter((product) => product.ownerId === "own7")
+				userProducts:action.products.filter((product) => product.ownerId === "own7"),
 			};
 		case CREATE_PRODUCT:
 			const newProduct = new Product(
@@ -47,7 +47,7 @@ const productReducers = (state = initialState, action) => {
 								'c4',
 								state.userProducts[productIndex].ownerId, 
 								
-								action.productData.name,
+								action.productData.name, 
 								state.userProducts[productIndex].price,
 								action.productData.description,
 								action.productData.imageurl,
