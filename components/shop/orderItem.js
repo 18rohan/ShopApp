@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         // marginHorizontal:20,
         marginTop: 30,
-        width: 350,
+        width: 340,
         height: 80,
         shadowColor: "black",
         shadowOffset: { width: 3, height: 4 },

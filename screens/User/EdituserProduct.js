@@ -79,8 +79,8 @@ const EditUserProduct = (props) => {
 
  
 
-    console.log("Edit Screen");
-    console.log(editedProduct);
+    // console.log("Edit Screen");
+    // console.log(editedProduct);
 
     useEffect(() => {
         if(error){

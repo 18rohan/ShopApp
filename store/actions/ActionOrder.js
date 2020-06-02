@@ -4,11 +4,12 @@ export const ADD_ORDER = "ADD_ORDER";
 export const SET_ORDER = "SET_ORDER";
 
 export const fetchOrder = () =>{
-	return async (dispatch) => {
-
+	return async (dispatch, getState) => {
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
 		try {
 			const response = await fetch(
-				"https://shopapp-fb9ab.firebaseio.com/orders/own7.json"
+				`https://shopapp-fb9ab.firebaseio.com/orders/${userId}.json`
 			);
 
 			if (!response.ok) {
@@ -48,10 +49,11 @@ export const fetchOrder = () =>{
 
 export const addOrder = (cartItems, totalAmount) => {
 	const date = new Date();
-	return async (dispatch) => {
-
+	return async (dispatch,getState) => {
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
 		const response = await fetch(
-			"https://shopapp-fb9ab.firebaseio.com/orders/own7.json",
+			`https://shopapp-fb9ab.firebaseio.com/orders/${userId}.json?auth=${token}`,
 			{
 				method: "POST",
 				headers: { "content-Type": "application/json" },
@@ -59,7 +61,7 @@ export const addOrder = (cartItems, totalAmount) => {
 					cartItems,
 					totalAmount,
 					date : date.toISOString(),
-					
+					 
 				}),
 			}
 

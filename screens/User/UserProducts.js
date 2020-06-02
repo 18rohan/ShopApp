@@ -12,10 +12,10 @@ import * as ProductActions from "../../store/actions/products";
 
 
 const UserProducts = (props) => {
-	const userProducts = useSelector((state) => state.products.userProducts);
+	const availableUserProducts = useSelector((state) => state.products.userProducts);
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState();
-	// console.log(userProducts);
+	console.log(availableUserProducts);
 	const Dispatch = useDispatch();
 
 	const getData = useCallback(async () =>{
@@ -63,10 +63,10 @@ const UserProducts = (props) => {
 
 // Handling the NO DATA situation in UserProducts Screen
 
-	if (!isLoading && userProducts.length === 0){
+	if ( availableUserProducts.length === 0){
 		return (
 			<View style={styles.AppLoadingIndicator}>
-			<Text style={{fontSize:25, fontWeight:'bold', color:ThemeColors.SpotifyGreen}}>No Products Added to User Products!! </Text>
+			<Text style={{fontSize:20, fontWeight:'bold', color:ThemeColors.SpotifyGreen}}>No Products Added to User Products!! </Text>
 			</View>
 			);
 	}
@@ -95,7 +95,7 @@ const UserProducts = (props) => {
 			<FlatList
 				onRefresh= {getData}
 				refreshing={isLoading}
-				data={userProducts}
+				data={availableUserProducts}
 				renderItem={renderSingleProduct}
 				showsVerticalScrollIndicator={false}
 			/>

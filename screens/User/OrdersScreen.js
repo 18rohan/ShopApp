@@ -47,38 +47,41 @@ const OrderScreen = (props) => {
             </View>
         );
     }
+    if (orders.length === 0){
+        return (
+            <View style={{justifyContent: 'center',alignItems: 'center', marginTop:350}}>
+            <Text style={{fontSize:25, fontWeight:'bold', color:ThemeColors.SpotifyGreen}}> Add Some Orders!!</Text>
+            </View>
+            );
+
+    }
 
     const renderOrderItem = (itemData) => {
         return (
-            <ScrollView>
+            
                 <View style={styles.list}>
-                    <OrderItem
-                        date={itemData.item.readableDate}
-                        amount={itemData.item.totalAmount}
-                        items={itemData.item.items}
-                    >
-                        <Button
-                            title="Show Details"
-                            onPress={() => {
-                                setOrderDetails((prevState) => !prevState);
-                            }}
-                        />
-                    </OrderItem>
+                    {itemData.item.items.map(item => <CardDetailItem 
+                                                name={item.productName} 
+                                                image={item.imageurl} 
+                                                amount={item.productPrice} 
+                                                sum={item.sum} 
+                                                quantity={item.quantity}/>
+                                                )}
+                       
+                    
                 </View>
-            </ScrollView>
+            
         );
     };
     return (
         <View style={styles.screen}>
-            <View style={styles.HeaderContainer}>
-                <Text style={styles.text}>Orders Screen</Text>
-            </View>
+            
 
             <View style={styles.ListContainer}>
                 <FlatList
                     data={orders}
                     renderItem={renderOrderItem}
-                    horizontal
+                    
                     showsHorizontalScrollIndicator={false}
                 />
             </View>
@@ -108,7 +111,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 15,
-        marginLeft:40
+        marginLeft:25
     },
     text: {
         fontSize: 24,
@@ -117,7 +120,7 @@ const styles = StyleSheet.create({
     list: {
         flex: 1,
         width: 450,
-        height: 500,
+        height: 200,
         justifyContent: "flex-start",
         alignItems: "flex-start",
         paddingLeft: 30,
@@ -125,6 +128,7 @@ const styles = StyleSheet.create({
     ListContainer: {
         flex: 1,
         width: 500,
+
         justifyContent: "center",
         alignItems: "center",
         marginLeft: 10,

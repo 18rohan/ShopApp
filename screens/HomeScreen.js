@@ -19,7 +19,7 @@ import ThemeColors from '../constants/themeColor';
 import CustomHeaderButton from '../components/HeaderButton';
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import * as ProductActions from '../store/actions/products';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 
 
@@ -28,6 +28,11 @@ const HomeScreen = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
     const Dispatch = useDispatch(false);
+    const availableData = useSelector(state => state.products.availableProducts);
+     const displayedData = availableData.filter(
+        (product) => product.categoryId.indexOf('c4') >= 0
+    );
+
 
     const getData = useCallback(async () =>{
         setError(null);
@@ -51,7 +56,7 @@ const HomeScreen = props => {
 // Getting the data and displaying it on the homescreee: INITIAL FETCH OF THE DATA
     useEffect(() => {
         getData();
-        
+        props.navigation.setParams({categoryId:''})
     },[Dispatch,getData]);
 
 
@@ -138,7 +143,9 @@ const HomeScreen = props => {
                     
                  </View>
                  <View style={{marginTop:9}}>
-                     <Text style={styles.textSmall}>{itemData.item.name}</Text>
+                     <Text style={styles.textSmall}>
+                      {itemData.item.name}
+                     </Text>
                      </View>
                  
              </View>
@@ -172,7 +179,7 @@ const HomeScreen = props => {
 
                    <View style={styles.BottomRow}>
                             <Text style={{fontSize:20, fontWeight:'400'}}>Latest</Text>
-                            <FlatList data={PRODUCTS} renderItem={renderSmallCards} horizontal showsHorizontalScrollIndicator={false}/>
+                            <FlatList data={displayedData} renderItem={renderSmallCards} horizontal showsHorizontalScrollIndicator={false}/>
                         
                    </View>
                    <View style={styles.MidRow}> 

@@ -5,7 +5,8 @@ export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
 export const fetchProduct = () => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
+		const userId = getState().auth.userId;
 		try {
 			const response = await fetch(
 				"https://shopapp-fb9ab.firebaseio.com/products.json"
@@ -22,8 +23,8 @@ export const fetchProduct = () => {
 				loadedProducts.push(
 					new Product(
 						key,
-						"c4",
-						"own7",
+						"c4", 
+						resData[key].ownerId,
 						resData[key].name,
 						resData[key].price,
 						resData[key].description,
@@ -31,7 +32,10 @@ export const fetchProduct = () => {
 					)
 				);
 			}
-			dispatch({ type: SET_PRODUCT, products: loadedProducts });
+			dispatch({ type: SET_PRODUCT, 
+				products: loadedProducts , 
+				userProducts:loadedProducts.filter(prod => prod.ownerId === userId)
+			});
 		} catch (err) {
 			// send to custom analytics server
 			throw err;
@@ -40,9 +44,10 @@ export const fetchProduct = () => {
 };
 
 export const deleteProduct = (productId) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
+		const token = getState().auth.token;
 		await fetch(
-			`https://shopapp-fb9ab.firebaseio.com/products/${productId}.json`,
+			`https://shopapp-fb9ab.firebaseio.com/products/${productId}.json?auth=${token}`,
 			{ method: "DELETE" }
 		);
 
@@ -55,10 +60,12 @@ export const deleteProduct = (productId) => {
 };
 
 export const createProduct = (name, imageurl, description, price) => {
-	return async (dispatch) => {
+	return async (dispatch, getState) => {
 		// Async Function to fetch Data from FireBase
+		const token = getState().auth.token;
+		const userId = getState().auth.userId;
 		const response = await fetch(
-			"https://shopapp-fb9ab.firebaseio.com/products.json",
+			`https://shopapp-fb9ab.firebaseio.com/products.json?auth=${token}`,
 			{
 				method: "POST",
 				headers: { "content-Type": "application/json" },
@@ -67,12 +74,16 @@ export const createProduct = (name, imageurl, description, price) => {
 					imageurl,
 					description,
 					price,
+					ownerId:userId,
 				}),
 			}
 		);
+		if(!response.ok){
+			throw new Error('Something went wrong');
+		}
 
 		const resData = await response.json();
-		console.log(resData);
+		// console.log(resData);
 
 		// Dispatch Function
 		dispatch({
@@ -83,15 +94,19 @@ export const createProduct = (name, imageurl, description, price) => {
 				imageurl,
 				description,
 				price,
+				ownerId:userId,
 			},
 		});
 	};
 };
 
 export const updateProduct = (id, name, imageurl, description) => {
-	return async (dispatch) => {
+	return async (dispatch,getState) => {
+		// console.log("getState------");
+		// console.log(getState());
+		const token = getState().auth.token
 		const response = await fetch(
-			`https://shopapp-fb9ab.firebaseio.com/products/${id}.json`,
+			`https://shopapp-fb9ab.firebaseio.com/products/${id}.json?auth=${token}`,
 			{
 				method: "PATCH",
 				headers: { "content-Type": "application/json" },

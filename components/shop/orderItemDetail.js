@@ -17,6 +17,9 @@ const CardDetailItem = (props) => {
                     <Text style={styles.title}>Total: {props.sum}</Text>
                     <Text style={styles.title}>Number: {props.quantity}</Text>
                     </View>
+                    {props.quantity > 1 && (<View> 
+
+                                            </View>) }
                 
                 <View style={styles.itemData}>
                     
@@ -38,7 +41,7 @@ const styles = StyleSheet.create({
         // marginHorizontal:20,
         marginTop:10,
         width: 350,
-        height: 160,
+        height: 180,
         shadowColor: "black",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.6,

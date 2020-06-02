@@ -7,12 +7,13 @@ import productReducers from './store/reducers/productReducers';
 import ShopNavigator from './navigation/ShopNavigator';
 import ReducerOrder from './store/reducers/ReducerOrders';
 import ReduxThunk from 'redux-thunk';
-
+import AuthReducer from './store/reducers/AuthReducer';
 
 const rootReducer = combineReducers({
   products: productReducers,
   cart:userCart,
   order:ReducerOrder,
+  auth:AuthReducer,
 
 });
 
