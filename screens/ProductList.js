@@ -1,4 +1,4 @@
-import React , { useState, useEffect }from "react";
+import React , { useState, useEffect, useCallback}from "react";
 import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
 import BigCards from "../components/BigCards";
 import { PRODUCTS, PRODUCT_CATEGORIES } from "../data/dummy_data";
@@ -10,12 +10,18 @@ const ProductList = (props) => {
    const [isLoading, setIsLoading] = useState(false);
     const Dispatch = useDispatch(false);
 
-    useEffect(() => {
-        const getData = async () =>{
+    const getData = useCallback(async () =>{
             setIsLoading(true);
             await Dispatch(ProductActions.fetchProduct());
             setIsLoading(false);
-        };
+        },[setIsLoading, Dispatch]);
+
+    useEffect(() => {
+        props.navigation.addListener('willFocus',getData)
+    })
+
+    useEffect(() => {
+        
         getData();
     },[Dispatch]);
 

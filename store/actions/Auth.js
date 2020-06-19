@@ -1,5 +1,6 @@
 export const SIGN_UP = "SIGN_UP";
 export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 export const SignUp = (email, password) => {
 	return async (dispatch) =>{
@@ -67,3 +68,6 @@ export const Login = (email, password) =>{
 	};
 };
 
+export const Logout = () => {
+	return { type:LOGOUT };
+};

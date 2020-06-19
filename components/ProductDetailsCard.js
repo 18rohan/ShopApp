@@ -49,7 +49,7 @@ const ProductDetailsCard = (props) => {
                             {/* Product : PUT IN CART */}
                             <Ionicons name="ios-cart" size={35} color="white" />
 
-                            <Text style={styles.buttonText}>Checkout</Text>
+                            <Text style={styles.buttonText}>Add To Cart</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -65,7 +65,7 @@ const ProductDetailsCard = (props) => {
                             {/* Product : PUT IN CART */}
                             <Fontisto name="shopping-bag" size={28} color="white" />
                             <View style={styles.buttonTextContainer}>
-                            <Text style={styles.buttonText}>Checkout</Text>
+                            <Text style={styles.buttonText}>Buy</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 25,
         marginLeft: 30,
-        width: 100,
+        width: 120,
         height: 70,
         borderRadius: 10,
         borderWidth: 1,

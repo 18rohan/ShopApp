@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, Platform} from 'react-native';
+import {View, Text, StyleSheet, Platform, SafeAreaView, Button} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {createDrawerNavigator} from 'react-navigation-drawer'
+import {createDrawerNavigator, DrawerItems} from 'react-navigation-drawer'
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen';
 import ProductList from '../screens/ProductList';
@@ -16,6 +16,8 @@ import TestEditProduct from '../screens/User/Test_editUserProduct';
 //import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UserCart from '../screens/User/userCart';
 import ThemeColors from '../constants/themeColor';
+import {useDispatch} from 'react-redux';
+import * as AuthActions from '../store/actions/Auth';
 import {Entypo, Ionicons, FontAwesome5, Feather} from '@expo/vector-icons';
 
 
@@ -133,6 +135,25 @@ const MainNav = createDrawerNavigator({
     order: OrderNav,
     Admin: UserSavedProducts,
     
+},{
+  contentOptions:{
+    activeTintColor: ThemeColors.SpotifyGreen
+  },
+  contentComponent: props =>{
+    const dispatch = useDispatch();
+    return (
+          <View style={{flex:1}}>
+          <SafeAreaView forceInset={{top:'always', horizontal:'never'}}>
+          <DrawerItems {...props} />
+          <Button title="Logout"  color={ThemeColors.SpotifyGreen} onPress={() => {
+            
+            dispatch(AuthActions.Logout());
+            props.navigation.navigate('Auth');
+          }}/>
+          </SafeAreaView>
+          </View>
+      );
+  },
 })
 
 const AuthNav = createSwitchNavigator({
