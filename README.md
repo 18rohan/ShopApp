@@ -7,9 +7,10 @@ ShopApp is a React Native based boilerplate for an e-commerce application. It ha
 - Firebase database connectivity
 - Uses Redux for state management
 
+<img src="ShopStop_SCREENSHOTS/authScreen.png" width="200"> <img src="ShopStop_SCREENSHOTS/homeScreen.png" width="200"> <img src="ShopStop_SCREENSHOTS/cart.png" width="200">  
 
-![AuthScreen](/ShopStop_SCREENSHOTS/authScreen.png)
-![HomeScreen](/ShopStop_SCREENSHOTS/homeScreen.png)
+
+
 
 ## Installation
 ### 1. Clone the app from the Git repository
